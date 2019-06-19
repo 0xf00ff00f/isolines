@@ -152,13 +152,13 @@ int main(int argc, char *argv[])
 
         const auto mvp = projection * view * model;
 
-        glm::mat3 modelNormal(model);
-        modelNormal = glm::inverse(modelNormal);
-        modelNormal = glm::transpose(modelNormal);
+        glm::mat3 model_normal(model);
+        model_normal = glm::inverse(model_normal);
+        model_normal = glm::transpose(model_normal);
 
         program.bind();
         program.set_uniform(program.uniform_location("mvp"), mvp);
-        program.set_uniform(program.uniform_location("normalMatrix"), modelNormal);
+        program.set_uniform(program.uniform_location("normalMatrix"), model_normal);
         program.set_uniform(program.uniform_location("lightPosition"), glm::vec3(5, 7, 5));
 
         constexpr auto num_levels = 17;
