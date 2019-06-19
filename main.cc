@@ -132,8 +132,7 @@ int main(int argc, char *argv[])
 #ifdef DUMP_FRAMES
     constexpr auto total_frames = 160;
     auto frame_num = 0;
-    std::vector<char> frame_data;
-    frame_data.resize(window_width * window_height * 4);
+    std::vector<char> frame_data(window_width * window_height * 4);
 #else
     float cur_time = 0.0;
 #endif
@@ -180,7 +179,7 @@ int main(int argc, char *argv[])
         if (auto *out = std::fopen(path, "wb"))
         {
             std::fprintf(out, "P6\n%d %d\n255\n", window_width, window_height);
-            char *p = frame_data.data();
+            auto *p = frame_data.data();
             for (auto i = 0; i < window_width * window_height; ++i)
             {
                 std::fputc(*p++, out);
