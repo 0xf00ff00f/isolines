@@ -44,7 +44,7 @@ public:
         }
     }
 
-    void bind() { glBindVertexArray(vao_); }
+    void bind() const { glBindVertexArray(vao_); }
 
 private:
     GLuint vao_;
