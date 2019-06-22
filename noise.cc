@@ -1,6 +1,6 @@
 #include "noise.h"
 
-#include <vector>
+#include <array>
 #include <cmath>
 
 // ported from https://mrl.nyu.edu/~perlin/noise/
@@ -27,7 +27,7 @@ static float grad(int hash, float x, float y, float z)
 float noise(float x, float y, float z)
 {
     static const auto p = [] {
-        std::vector<int> p(512);
+        std::array<int, 512> p;
         static const int permutation[] = {
             151, 160, 137, 91,  90,  15,  131, 13,  201, 95,  96,  53,  194, 233, 7,   225, 140, 36,  103, 30,
             69,  142, 8,   99,  37,  240, 21,  10,  23,  190, 6,   148, 247, 120, 234, 75,  0,   26,  197, 62,
