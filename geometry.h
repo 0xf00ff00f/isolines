@@ -73,7 +73,7 @@ struct tuple_element_offset<Index, std::tuple<Head, Ts...>>
 };
 
 template<typename VertexT, std::size_t Index>
-int declare_vertex_attrib_pointer_for()
+void declare_vertex_attrib_pointer_for()
 {
     using attrib_type = typename std::tuple_element<Index, VertexT>::type;
     using attrib_traits = vertex_component_traits<attrib_type>;
@@ -84,14 +84,12 @@ int declare_vertex_attrib_pointer_for()
     glEnableVertexAttribArray(Index);
     glVertexAttribPointer(Index, attrib_traits::size, attrib_traits::type, GL_FALSE, stride,
                           reinterpret_cast<GLvoid *>(offset));
-
-    return 0;
 }
 
 template<typename VertexT, std::size_t... Indexes>
 void declare_vertex_attrib_pointers_impl(std::index_sequence<Indexes...>)
 {
-    std::initializer_list<int>{declare_vertex_attrib_pointer_for<VertexT, Indexes>()...};
+    std::initializer_list<int>{(declare_vertex_attrib_pointer_for<VertexT, Indexes>(), 0)...};
 }
 
 template<typename... Ts>
