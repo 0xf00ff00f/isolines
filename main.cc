@@ -46,7 +46,7 @@ private:
         subdivide_triangle(v4, v1, v2, 0);
         subdivide_triangle(v1, v4, v3, 0);
 
-        geometry_.set_data(verts_, {{3, GL_FLOAT, offsetof(vertex, position)}, {1, GL_FLOAT, offsetof(vertex, noise)}});
+        geometry_.set_data(verts_);
 
         std::cout << verts_.size() << " verts, " << (verts_.size() / 3) << " triangles\n";
     }
@@ -62,9 +62,9 @@ private:
             const auto v0n = glm::normalize(v0);
             const auto v1n = glm::normalize(v1);
             const auto v2n = glm::normalize(v2);
-            verts_.push_back({v0n, noise(v0n)});
-            verts_.push_back({v1n, noise(v1n)});
-            verts_.push_back({v2n, noise(v2n)});
+            verts_.push_back(vertex(v0n, noise(v0n)));
+            verts_.push_back(vertex(v1n, noise(v1n)));
+            verts_.push_back(vertex(v2n, noise(v2n)));
         }
         else
         {
@@ -79,11 +79,8 @@ private:
     }
 
     int max_subdivisions_;
-    struct vertex
-    {
-        glm::vec3 position;
-        float noise;
-    };
+
+    using vertex = std::tuple<glm::vec3, float>;
     std::vector<vertex> verts_;
     geometry geometry_;
 };
