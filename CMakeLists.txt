@@ -19,7 +19,8 @@ include_directories(
 add_executable(demo
     main.cc
     shader_program.cc
-    noise.cc)
+    noise.cc
+    util.cc)
 
 target_link_libraries(
     demo

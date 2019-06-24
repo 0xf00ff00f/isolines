@@ -3,6 +3,7 @@
 #include "geometry.h"
 #include "shader_program.h"
 #include "noise.h"
+#include "util.h"
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
@@ -129,7 +130,6 @@ int main(int argc, char *argv[])
 #ifdef DUMP_FRAMES
     constexpr auto total_frames = 160;
     auto frame_num = 0;
-    std::vector<char> frame_data(window_width * window_height * 4);
 #else
     float cur_time = 0.0;
 #endif
@@ -168,24 +168,10 @@ int main(int argc, char *argv[])
         }
 
 #ifdef DUMP_FRAMES
-        glReadPixels(0, 0, window_width, window_height, GL_RGBA, GL_UNSIGNED_BYTE, frame_data.data());
-
         char path[80];
         std::sprintf(path, "%05d.ppm", frame_num);
 
-        if (auto *out = std::fopen(path, "wb"))
-        {
-            std::fprintf(out, "P6\n%d %d\n255\n", window_width, window_height);
-            auto *p = frame_data.data();
-            for (auto i = 0; i < window_width * window_height; ++i)
-            {
-                std::fputc(*p++, out);
-                std::fputc(*p++, out);
-                std::fputc(*p++, out);
-                ++p;
-            }
-            std::fclose(out);
-        }
+        dump_frame_to_file(path, window_width, window_height);
 
         if (++frame_num == total_frames)
             break;
