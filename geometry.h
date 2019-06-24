@@ -118,6 +118,7 @@ public:
     void set_data(const std::vector<std::tuple<Ts...>> &buf)
     {
         using vertex_type = std::tuple<Ts...>;
+        static_assert(sizeof(vertex_type) == detail::tuple_stride<vertex_type>::value);
         constexpr auto stride = sizeof(vertex_type);
 
         glBindBuffer(GL_ARRAY_BUFFER, vbo_);
